@@ -10,8 +10,23 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => [],
+    'bootstrap' => [
+        'log',
+        'common\\components\\LoadPlugins',
+        'common\\components\\LoadModule',
+    ],
+    //模块
+    'modules' => [
+        'rbac' => [
+            'class' => 'rbac\Module',
+        ],
+        'backup' => [
+            'class' => 'backup\Module',
+        ],
+        'config' => [
+            'class' => 'config\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -37,14 +52,17 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
     ],
+    'aliases' => [
+        '@rbac' => '@backend/modules/rbac',
+        '@backup' => '@backend/modules/backup',
+    ],
+    'as access' => [
+        'class' => 'rbac\components\AccessControl',
+        'allowActions' => [
+            'user/admin/logout'
+        ],
+    ],
+    'as adminlog' => 'backend\\behaviors\\AdminLogBehavior',
     'params' => $params,
 ];
