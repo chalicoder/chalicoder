@@ -57,7 +57,7 @@ return [
         '@rbac' => '@backend/modules/rbac',
         '@backup' => '@backend/modules/backup',
     ],
-    'as access' => [
+    'as access' => [    //行为
         'class' => 'rbac\components\AccessControl',
         'allowActions' => [
             'user/admin/logout'
